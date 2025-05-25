@@ -1,5 +1,6 @@
 # Logs
 NOTES.md
+/server/
 /public/wikipedia-movie-data/*
 logs
 *.log

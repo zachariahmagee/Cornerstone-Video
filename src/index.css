@@ -85,7 +85,7 @@ select {
 
 select:hover {
   border-color: #646cff;
-}
+} 
 
 @media (prefers-color-scheme: light) {
   :root {
