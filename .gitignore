@@ -1,7 +1,7 @@
 # Logs
 NOTES.md
-/server/
-/public/wikipedia-movie-data/*
+
+client/public/wikipedia-movie-data/*
 logs
 *.log
 npm-debug.log*
@@ -16,6 +16,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
+.vite/
 .vscode/*
 !.vscode/extensions.json
 .idea

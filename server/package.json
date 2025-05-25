@@ -1,0 +1,37 @@
+{
+  "name": "cornerstone-video-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:movies": "ts-node scripts/testMoviesQuery.ts",
+    "test:moviesId": "ts-node scripts/testGetMovie.ts", 
+    "test:users": "ts-node scripts/testUserRegistration.ts", 
+    "test:usersId": "ts-node scripts/testGetUser.ts",
+    "test:updateLikes": "ts-node scripts/testUpdateLikes.ts",
+    "test:getLikes": "ts-node scripts/testGetLikes.ts",
+    "dev": "nodemon --watch . --ext ts --exec ts-node index.ts",
+    "build": "tsc",
+    "serve": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.21",
+    "nodemon": "^3.1.10",
+    "node-fetch": "^3.3.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
