@@ -9,6 +9,7 @@ import { ObjectId } from "mongodb";
  * - GET api/users/:id
  * - PUT api/users/:id/likes
  * - GET api/users/:id/likes
+ * - GET api/users/:id/Recommendations
  */
 
 const router = Router();
@@ -67,25 +68,6 @@ router.get("/:id", async (req: Request, res: Response): Promise<void> => {
 });
 
 
-
-// PUT /api/users/:id/likes → Update liked movies
-// router.put("/:id/likes", async (req: Request, res: Response): Promise<void>  => {
-//   const { id } = req.params;
-//   const { likedMovies } = req.body;
-
-//   if (!Array.isArray(likedMovies)) {
-//     res.status(400).json({ error: "likedMovies must be an array of movie IDs" });
-//     return
-//   }
-
-//   await db.collection("users").updateOne(
-//     { _id: new ObjectId(id) },
-//     { $set: { likedMovies } }
-//   );
-
-//   res.json({ message: "Likes updated" });
-// });
-
 // MovieID for testing: 6833552f055b45eff55fd0c9
 // Update a liked movie 
 router.put("/:id/likes", async (req: Request, res: Response): Promise<void> => {
@@ -108,6 +90,7 @@ router.put("/:id/likes", async (req: Request, res: Response): Promise<void> => {
     update
   );
   console.log(id, movieId, liked);
+
   if (result.modifiedCount === 0) {
     res.status(404).json({ error: "User not found or no change made" });
     return;
@@ -143,8 +126,9 @@ router.get("/:id/likes", async (req: Request, res: Response): Promise<void>  => 
   const { id } = req.params;
 
   const user = await db.collection("users").findOne({ _id: new ObjectId(id) });
-
+  console.log("inside get likes:", id);
   if (!user) {
+    console.log("Could not find user:", id);
     res.status(404).json({ error: "User not found" });
     return;
   }
@@ -161,22 +145,55 @@ router.get("/:id/likes", async (req: Request, res: Response): Promise<void>  => 
   res.json(result);
 });
 
-// Maybe I'll change "likes" to 1-5 ratings? 
-// PUT /api/users/:id/ratings → Update ratings
-// router.put("/:id/ratings", async (req: Request, res: Response): Promise<void>  => {
-//   const { id } = req.params;
-//   const { ratings } = req.body;
 
-//   if (typeof ratings !== "object" || Array.isArray(ratings)) {
-//     return res.status(400).json({ error: "ratings must be an object" });
-//   }
+router.get("/:id/recommendations", async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const user = await db.collection("users").findOne({ _id: new ObjectId(id) });
 
-//   await db.collection("users").updateOne(
-//     { _id: new ObjectId(id) },
-//     { $set: { ratings } }
-//   );
+  if (!user || !user.likedMovies.length) {
+    res.status(404).json({ error: "User or liked movies not found"});
+    return
+  } 
 
-//   res.json({ message: "Ratings updated" });
-// });
+  // Get liked movie details
+  const likedMovies = await db.collection("movies").find({
+    _id: { $in: user.likedMovies.map((id: string) => new ObjectId(id)) } 
+  }).toArray();
+
+  // Build a set of liked genres and cast
+  const likedGenres = new Set<string>();
+  const likedActors = new Set<string>();
+
+  for (const movie of likedMovies) {
+    (movie.genres || []).forEach((g: string) => likedGenres.add(g));
+    (movie.cast || []).forEach((a: string) => likedActors.add(a));
+  }
+
+  // Get candidate movies Not already liked
+  const candidates = await db.collection("movies")
+    .find({
+      _id: { $nin: user.likedMovies.map((id: string) => new ObjectId(id)) }
+    }).toArray();
+
+  // Score each candidate
+  const scored = candidates.map((movie) => {
+    const genreScore = (movie.genres || []).filter((g: string) => likedGenres.has(g)).length;
+    const actorScore = (movie.cast || []).filter((a: string) => likedActors.has(a)).length
+
+    const score = genreScore * 2 + actorScore; // weight genre higher
+    return { movie, score };
+  })
+
+  const top = scored
+    .filter(s => s.score > 0)
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 50)
+    .map(({ movie }) => ({
+      id: movie._id.toString(),
+      ...movie,
+    }));
+
+    res.json(top);
+})
 
 export default router;
