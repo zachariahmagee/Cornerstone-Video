@@ -10,6 +10,7 @@ export function useLikes() {
     // load likes on mount
     useEffect(() => {
         if (user) {
+            
             setLikedIds(new Set(user.likedMovies || []));
         } else {
             const guestLikes = JSON.parse(localStorage.getItem("guestLikes") || "[]");
@@ -18,7 +19,7 @@ export function useLikes() {
     }, [user]);
 
 
-    const toggleLike = (movieId: string) => {
+    const toggleLike = async (movieId: string) => {
         const updated = new Set(likedIds);
         const alreadyLiked = updated.has(movieId);
 
@@ -31,17 +32,22 @@ export function useLikes() {
         setLikedIds(updated);
 
         if (user) {
-            fetch(`${API_BASE}/users/${user.id}/likes`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ movieId, liked: !alreadyLiked }),
-            }).catch((err) => console.error("Error updating like:", err));
+            try {
+                await fetch(`${API_BASE}/users/${user.id}/likes`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ movieId, liked: !alreadyLiked }),
+                });
+
+            } catch(err) {
+                console.error("Error updating like:", err);
+            }
         } else {
             localStorage.setItem("guestLikes", JSON.stringify(Array.from(updated)));
         }
     };
 
-    const isLiked = (movieId: string) => false;//likedIds.has(movieId);
+    const isLiked = (movieId: string) => likedIds.has(movieId);
 
     const setLikesFromServer = (ids: string[]) => setLikedIds(new Set(ids));
 

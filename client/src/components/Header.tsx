@@ -24,7 +24,7 @@ export default function Header() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: newUserName, email }),
         });
-        console.log(res.body);
+
         if (!res.ok) {
             const err = await res.json();
             setStatus(err?.error || "Registration failed");
@@ -32,8 +32,8 @@ export default function Header() {
         }
 
         const user: User = await res.json();
+ 
         setUser(user)
-        localStorage.setItem("cs-userId", user.id);
         setStatus("");
         setNewUserName("");
         setEmail("");

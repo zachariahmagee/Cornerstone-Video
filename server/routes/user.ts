@@ -107,7 +107,7 @@ router.put("/:id/likes", async (req: Request, res: Response): Promise<void> => {
     { _id: userObjectId },
     update
   );
-
+  console.log(id, movieId, liked);
   if (result.modifiedCount === 0) {
     res.status(404).json({ error: "User not found or no change made" });
     return;

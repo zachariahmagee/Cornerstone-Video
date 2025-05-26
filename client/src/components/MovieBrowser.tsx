@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useEffect, useCallback } from "react"; 
+import { useState, useRef, useEffect, useCallback } from "react"; 
 import { useInfiniteMovies } from "../hooks/useMovie";
 import { useLikes } from "../hooks/useLikes";
 import type { MovieFilters } from "../types/MovieFilters";
@@ -8,26 +8,10 @@ import MovieCard from "./MovieCard";
 
 export default function MovieBrowser() {
     const [filters, setFilters] = useState<MovieFilters>({});
-    // const memoizedFilters = useMemo(() => ({genre: filters.genre, decade: filters.decade }), [filters.genre, filters.decade]);
     const { movies, loading, error, hasMore, loadMore } = useInfiniteMovies(filters);
     const { likedIds, toggleLike, isLiked, setLikesFromServer, syncGuestLikesToServer } = useLikes();
-    // const observerRef = useRef<HTMLDivElement | null>(null);
+
     const observer = useRef<IntersectionObserver | null>(null);
-    // useEffect(() => {
-    //     if (loading || !hasMore) return;
-    //     const observer = new IntersectionObserver((entries) => {
-    //         if (entries[0].isIntersecting && hasMore) {
-    //             loadMore();
-    //         }
-    //     }, { rootMargin: "10px" });
-    //     const element = observerRef.current;
-    //     if (element) observer.observe(element);
-
-    //     return () => { 
-    //         if (element) observer.unobserve(element); 
-    //     }
-        // }, [loading, hasMore, loadMore]);
-
 
     const endOfMovieElementsRef = useCallback((node: HTMLDivElement | null) => {
         if (loading || !hasMore) return;
@@ -44,9 +28,7 @@ export default function MovieBrowser() {
         );
 
         if (node) observer.current.observe(node);
-    },
-    []
-    );
+    },[]);
 
     return (
         <main>

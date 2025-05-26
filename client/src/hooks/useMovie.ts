@@ -34,8 +34,8 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
   }, [genre, decade]);
 
   useEffect(() => {
-    // const controller = new AbortController();
-    // const signal = controller.signal;
+    const controller = new AbortController();
+    const signal = controller.signal;
 
     const fetchMovies = async () => {
       setLoading(true);
@@ -46,12 +46,13 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
         params.append("page", page.toString());
         params.append("limit", limit.toString());
         
-        const res = await fetch(`${apiBase}?${params.toString()}`);//, { signal });
+        const res = await fetch(`${apiBase}?${params.toString()}`, { signal });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
 
         setMovies(prev => [...prev, ...data.movies]);
         setHasMore(page < data.totalPages);
+        // console.log(data.total, data.totalPages);
       } catch (err: any) {
         if (err.name !== "AbortError") {
           setError(err.message || "Failed to load movies.");
@@ -63,7 +64,7 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
 
     fetchMovies();
 
-    // return () => controller.abort();
+    return () => controller.abort();
   }, [page, genre, decade, limit]);
 
   const loadMore = () => {

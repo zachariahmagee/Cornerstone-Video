@@ -39,6 +39,7 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
 
     const cursor = db.collection("movies")
       .find(filters)
+      .sort({ year: 1, title: 1 })
       .skip(skip)
       .limit(limit || 50);
 
@@ -61,7 +62,6 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 router.get("/:id", async (req: Request<{id: string}>, res: Response): Promise<void> => {
     try {
@@ -88,5 +88,9 @@ router.get("/:id", async (req: Request<{id: string}>, res: Response): Promise<vo
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+router.get("/:id/liked", async (req: Request, res: Response): Promise<void> => {
+
+})
 
 export default router;

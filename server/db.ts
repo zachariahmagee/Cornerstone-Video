@@ -10,6 +10,7 @@ export async function connectToDatabase() {
     
     // Ensure unique index on email, avoid duplicates
     await db.collection("users").createIndex({ email: 1 }, { unique: true, background: true });
+    await db.collection("movies").createIndex({ year: 1 }, { background: true })
 
     console.log("Connected to Cornerstone Video Database of Movies. Enjoy!");
 }
