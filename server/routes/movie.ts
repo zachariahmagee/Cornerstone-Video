@@ -17,7 +17,7 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
-
+    
     const genre = req.query.genre as Genre | undefined;
     const decade = parseInt(req.query.decade as string);
     const page = parseInt(req.query.page as string) || 1;
@@ -32,6 +32,8 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
     if (decade && decades.includes(decade)) {
       filters.year = { $gte: decade, $lt: decade + 10 };
     }
+
+    console.log(decade, genre);
 
     const skip = ((page || 1) - 1) * (limit || 50);
 

@@ -69,21 +69,71 @@ router.get("/:id", async (req: Request, res: Response): Promise<void> => {
 
 
 // PUT /api/users/:id/likes → Update liked movies
-router.put("/:id/likes", async (req: Request, res: Response): Promise<void>  => {
-  const { id } = req.params;
-  const { likedMovies } = req.body;
+// router.put("/:id/likes", async (req: Request, res: Response): Promise<void>  => {
+//   const { id } = req.params;
+//   const { likedMovies } = req.body;
 
-  if (!Array.isArray(likedMovies)) {
-    res.status(400).json({ error: "likedMovies must be an array of movie IDs" });
+//   if (!Array.isArray(likedMovies)) {
+//     res.status(400).json({ error: "likedMovies must be an array of movie IDs" });
+//     return
+//   }
+
+//   await db.collection("users").updateOne(
+//     { _id: new ObjectId(id) },
+//     { $set: { likedMovies } }
+//   );
+
+//   res.json({ message: "Likes updated" });
+// });
+
+// MovieID for testing: 6833552f055b45eff55fd0c9
+// Update a liked movie 
+router.put("/:id/likes", async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const { movieId, liked } = req.body;
+
+  if (!movieId || typeof liked !== "boolean") {
+    res.status(400).json({ error: "movieId and liked(boolean) are required" });
+    return;
+  }
+
+  const userObjectId = new ObjectId(id);
+
+  const update = liked
+    ? { $addToSet: { likedMovies: movieId } } // prevent duplicates
+    : { $pull: { likedMovies: movieId } };    // remove if exists
+
+  const result = await db.collection("users").updateOne(
+    { _id: userObjectId },
+    update
+  );
+
+  if (result.modifiedCount === 0) {
+    res.status(404).json({ error: "User not found or no change made" });
+    return;
+  }
+
+  res.json({ message: liked ? "Movie liked" : "Movie unliked" });
+});
+
+
+
+// POST /api/users/:id/likes/bulk
+router.post("/:id/likes/bulkUpdate", async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const { movieIds } = req.body;
+
+  if (!Array.isArray(movieIds)) {
+    res.status(400).json({ error: "movieIds must be an array" });
     return
   }
 
   await db.collection("users").updateOne(
     { _id: new ObjectId(id) },
-    { $set: { likedMovies } }
+    { $addToSet: { likedMovies: { $each: movieIds } } }
   );
 
-  res.json({ message: "Likes updated" });
+  res.json({ message: "Bulk likes added" });
 });
 
 

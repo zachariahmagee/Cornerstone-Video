@@ -13,8 +13,8 @@ export const PORT = process.env.PORT || 8080;
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/movies", movieRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/v1/movies", movieRoutes);
+app.use("/api/v1/users", userRoutes);
 
 connectToDatabase().then(() => {
         app.listen(PORT, () => {
