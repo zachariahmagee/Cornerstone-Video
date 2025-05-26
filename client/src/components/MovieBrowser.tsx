@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect, useCallback } from "react"; 
+import { useState, useRef, useCallback } from "react"; 
 import { useInfiniteMovies } from "../hooks/useMovie";
 import { useLikes } from "../hooks/useLikes";
 import type { MovieFilters } from "../types/MovieFilters";
 import Header from "./Header";
 import FilteringPanel from "./FilteringPanel";
 import MovieCard from "./MovieCard";
+import MovieCarousel from "./MovieCarousel";
 
 export default function MovieBrowser() {
     const [filters, setFilters] = useState<MovieFilters>({});
@@ -34,6 +35,13 @@ export default function MovieBrowser() {
         <main>
             <Header/>
             <FilteringPanel filters={filters} onChange={setFilters} />
+            {/* <MovieCarousel> 
+                {
+                    likedMovies.map((movie) => (
+                      <MovieCard key={movie.id} movie={movie} liked={true} toggleLike={toggleLike} />  
+                    ))
+                }
+            </MovieCarousel> */}
             <section>
                 { loading && <p>Loading movies...</p> }
                 { error && <p style={{ color: "red" }}>{error}</p> }

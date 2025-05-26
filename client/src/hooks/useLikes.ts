@@ -9,8 +9,7 @@ export function useLikes() {
 
     // load likes on mount
     useEffect(() => {
-        if (user) {
-            
+        if (user) { 
             setLikedIds(new Set(user.likedMovies || []));
         } else {
             const guestLikes = JSON.parse(localStorage.getItem("guestLikes") || "[]");
@@ -67,6 +66,7 @@ export function useLikes() {
             }
         }
     }
+
 
     return { likedIds, toggleLike, isLiked, setLikesFromServer, syncGuestLikesToServer };
 }

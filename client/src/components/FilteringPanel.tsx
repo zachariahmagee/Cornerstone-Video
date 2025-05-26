@@ -30,8 +30,6 @@ export default function FilteringPanel({ filters, onChange }: FilterPanelProps) 
     onChange({});
   };
 
-  console.log("FilterPanel render:", filters);
-
   return (
     <section style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
       <label>

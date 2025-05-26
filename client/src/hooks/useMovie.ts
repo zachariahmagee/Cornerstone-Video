@@ -52,7 +52,7 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
 
         setMovies(prev => [...prev, ...data.movies]);
         setHasMore(page < data.totalPages);
-        // console.log(data.total, data.totalPages);
+
       } catch (err: any) {
         if (err.name !== "AbortError") {
           setError(err.message || "Failed to load movies.");
