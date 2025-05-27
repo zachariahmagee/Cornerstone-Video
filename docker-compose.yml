@@ -1,0 +1,39 @@
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: cs_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./server
+    container_name: cs_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/cs-video
+    volumes:
+      - ./server:/app
+    command: sh -c "npm run seed && npm run dev" # or `npm start` 
+
+  frontend:
+    build:
+      context: ./client
+    container_name: cs_frontend
+    ports:  
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    command: npm run dev # or `vite`
+
+volumes:
+  mongo_data:

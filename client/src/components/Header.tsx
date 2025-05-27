@@ -1,8 +1,6 @@
 import UserRegistration from "./UserRegistration";
 
 export default function Header() {
-
-
   return (
     <header
       style={{
@@ -10,8 +8,6 @@ export default function Header() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "1rem 2rem",
-        backgroundColor: "#1a1a1a",
-        color: "#fff",
       }}
     >
       <img

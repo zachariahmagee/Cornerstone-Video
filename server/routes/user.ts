@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { db } from "../db";
 import { ObjectId } from "mongodb";
-
+import type { Movie } from "models/Movie";
 
 /**
  * Endpoints: 
@@ -146,6 +146,7 @@ router.get("/:id/likes", async (req: Request, res: Response): Promise<void>  => 
 });
 
 
+// extract recommendation code for reuse!!
 router.get("/:id/recommendations", async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const user = await db.collection("users").findOne({ _id: new ObjectId(id) });
@@ -193,7 +194,24 @@ router.get("/:id/recommendations", async (req: Request, res: Response): Promise<
       ...movie,
     }));
 
+    console.log("Recommended: ",top.length);
+
     res.json(top);
 })
+
+// Not yet fully implemented... need to extract recommendation code
+router.post("/recommendations/guest", async (req: Request, res: Response): Promise<void> => {
+  const { likedMovieIds } = req.body;
+  if (!Array.isArray(likedMovieIds) || likedMovieIds.length === 0) {
+    res.status(400).json({ error: "Invalid or empty likedMovieIds" });
+    return;
+  }
+
+  const likedMovies = await db.collection("movies").find({
+    _id: { $in: likedMovieIds.map((id: string) => new ObjectId(id)) },
+  }).toArray();
+
+  // extract liked genres/actors, calculate similarity, and return results
+});
 
 export default router;

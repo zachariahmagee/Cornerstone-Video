@@ -11,6 +11,7 @@
     "test:usersId": "ts-node scripts/testGetUser.ts",
     "test:updateLikes": "ts-node scripts/testUpdateLikes.ts",
     "test:getLikes": "ts-node scripts/testGetLikes.ts",
+    "seed": "ts-node utils/seedMovies",
     "dev": "nodemon --watch . --ext ts --exec ts-node index.ts",
     "build": "tsc",
     "serve": "node dist/index.js"

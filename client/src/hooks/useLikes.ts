@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useUser } from "./UserContext";
 import { API_BASE } from "../utils/config";
+import type { Movie } from "../types/Movie";
+import {putToggledLike} from "../api/users"
 
-
-export function useLikes() {
+export function useLikes(refresh: boolean = false) {
     const { user } = useUser();
     const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
-
+    // const [likedMovies, setLikedMovies] = useState<Movie[]>([]);
     // load likes on mount
     useEffect(() => {
         if (user) { 
@@ -16,6 +17,24 @@ export function useLikes() {
             setLikedIds(guestLikes);
         }
     }, [user]);
+
+
+    // useEffect(() => {
+    //     if (!user) return;
+        // const fetchLikedMovies = async () => {
+        //     try {
+        //         const res = await fetch(`${API_BASE}/users/${user.id}/likes`);
+        //         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        //         const data = await res.json();
+        //         setLikedMovies([...data.movies]);
+        //     } catch (err) {
+        //         console.log(user.id);
+        //         console.error("Couldn't fetch liked movies:", err);
+        //     }
+        // }
+    //     fetchLikedMovies();
+    // }, [refresh, user])
+
 
 
     const toggleLike = async (movieId: string) => {
@@ -31,16 +50,7 @@ export function useLikes() {
         setLikedIds(updated);
 
         if (user) {
-            try {
-                await fetch(`${API_BASE}/users/${user.id}/likes`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ movieId, liked: !alreadyLiked }),
-                });
-
-            } catch(err) {
-                console.error("Error updating like:", err);
-            }
+            await putToggledLike(user.id, movieId, !alreadyLiked);
         } else {
             localStorage.setItem("guestLikes", JSON.stringify(Array.from(updated)));
         }
@@ -68,5 +78,5 @@ export function useLikes() {
     }
 
 
-    return { likedIds, toggleLike, isLiked, setLikesFromServer, syncGuestLikesToServer };
+    return { toggleLike, isLiked, setLikesFromServer, syncGuestLikesToServer };
 }

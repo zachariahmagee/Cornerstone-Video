@@ -1,7 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { User } from "../types/User";
+import { API_BASE } from "../utils/config";
+import { registerUser } from "../api/users";
 
+
+const api_base = `${API_BASE}/users`;
 
 interface UserContextType {
   user: User | null;
@@ -17,6 +21,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem("user");
     if (stored) setUser(JSON.parse(stored));
+    else {
+      const registerGuest = async () => {
+        const result = await registerUser("Guest", "guest@cs-video.local");
+        if (result.success) {
+          setUser(result.user);
+          localStorage.setItem("user", JSON.stringify(result.user));
+        } else {
+          console.error("Failed to register guest user: ", result.error);
+        }
+      };
+      registerGuest()
+    }
   }, []);
   
   // Persist user any time the user changes:

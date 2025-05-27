@@ -3,6 +3,7 @@ import type { Movie } from '../types/Movie';
 import type { MovieFilters } from '../types/MovieFilters';
 import { filterMovies } from '../utils/filterUtils';
 import { API_BASE } from '../utils/config';
+import { fetchMoviesFromApi } from '../api/movies';
 
 // development: `http://localhost:8080/api/v1/movies`
 const apiBase = `${API_BASE}/movies`;
@@ -37,6 +38,7 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
     const controller = new AbortController();
     const signal = controller.signal;
 
+    // TODO: Extract this call to a reusable function under api/movie.ts
     const fetchMovies = async () => {
       setLoading(true);
       try {

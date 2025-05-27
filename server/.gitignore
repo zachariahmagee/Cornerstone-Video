@@ -1,6 +1,7 @@
 /scripts/
 /dist/
 .env
+/mongodb-data/
 
 logs
 *.log

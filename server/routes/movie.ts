@@ -15,6 +15,8 @@ const router = Router();
  * - /movies/:id get single movie
  */
 
+// GET movies filtered by genre and decade 
+// Queries: genre, decade, page, limit = 50
 router.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
     
@@ -37,9 +39,15 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
 
     const skip = ((page || 1) - 1) * (limit || 50);
 
+    // If no filters are present sort newest first
+    const noGenre = !genre || !genres.includes(genre);
+    const noDecade = !decade || !decades.includes(decade);
+
+    const sortByYear = noGenre && noDecade ? -1 : 1;
+
     const cursor = db.collection("movies")
       .find(filters)
-      .sort({ year: 1, title: 1 })
+      .sort({ year: sortByYear, title: 1 })
       .skip(skip)
       .limit(limit || 50);
 
@@ -63,6 +71,8 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+
+// GET movie with :id === movie.id
 router.get("/:id", async (req: Request<{id: string}>, res: Response): Promise<void> => {
     try {
         const id = req.params.id;
@@ -89,8 +99,5 @@ router.get("/:id", async (req: Request<{id: string}>, res: Response): Promise<vo
     }
 });
 
-router.get("/:id/liked", async (req: Request, res: Response): Promise<void> => {
-
-})
 
 export default router;

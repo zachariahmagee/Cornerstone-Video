@@ -31,7 +31,7 @@ export default function FilteringPanel({ filters, onChange }: FilterPanelProps) 
   };
 
   return (
-    <section style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+    <section style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", marginBottom: "1rem" }}>
       <label>
         Genre:
         <select value={filters.genre ?? ""} onChange={handleGenreChange}>
@@ -55,7 +55,7 @@ export default function FilteringPanel({ filters, onChange }: FilterPanelProps) 
           ))}
         </select>
       </label>
-      <button onClick={(e) => resetFilters(e)}>Reset</button>
+      <button style={{ height: "40px"}} onClick={(e) => resetFilters(e)}>Reset</button>
     </section>
   );
 }

@@ -11,35 +11,10 @@ interface MovieCardProps {
 }
 
 export default function MovieCard({ movie, liked, toggleLike }: MovieCardProps) {
-    // const [liked, setLiked] = useState(false);
-
-    // const { user } = useUser();
-
-    // const handleToggleLike = () => {
-    //   const newLike = !liked;
-    //   setLiked(newLike);
-
-    //   if (user) {
-    //     // Logged-in user -> update server
-    //     fetch(`${API_BASE}/users/${user.id}/likes`, {
-    //       method: "PUT",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify({ movieId: movie.id, liked: newLike })
-    //     }).catch((err) => console.error("Error updating like:", err));
-    //   } else {
-    //     // No user -> store in localStorage for now
-    //     const localLikes = JSON.parse(localStorage.getItem("guestLikes") || "[]") as string[];
-    //     const updatedLikes = newLike
-    //       ? [...new Set([...localLikes, movie.id])]
-    //       : localLikes.filter((id) => id !== movie.id);
-    //     localStorage.setItem("guestLikes", JSON.stringify(updatedLikes));
-    //   }
-    // };
-
     return (
         <article
             style={{
-                backgroundColor: "#1a1a1a",
+                // backgroundColor: "#1a1a1a",
                 borderRadius: "8px",
                 padding: "1rem",
                 width: "200px",
@@ -77,7 +52,7 @@ export default function MovieCard({ movie, liked, toggleLike }: MovieCardProps) 
                 color: "#bbb",
               }}
             >
-              <p style={{ textAlign: "center", fontSize: "0.9rem", margin: "0", color: "#bbb" }}>{movie.year}</p>
+              <p style={{ textAlign: "center", fontSize: "0.9rem", margin: "0", color: "var(--font-color-1)" }}>{movie.year}</p>
               <div 
                 style={{
                   position: "absolute",
@@ -88,7 +63,7 @@ export default function MovieCard({ movie, liked, toggleLike }: MovieCardProps) 
                 <LikeIcon liked={liked} onToggle={() => toggleLike(movie.id)} />
               </div>
             </div>
-            <p style={{ fontSize: "0.8rem", marginTop: "0.5rem", color: "#ccc" }}>
+            <p style={{ fontSize: "0.8rem", marginTop: "0.5rem", color: "var(--font-color-2)" }}>
                 {movie.genres.join(", ") || "No genres"}
             </p>
       </article> 
