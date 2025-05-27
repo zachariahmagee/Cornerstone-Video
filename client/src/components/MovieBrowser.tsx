@@ -5,7 +5,7 @@ import type { MovieFilters } from "../types/MovieFilters";
 import Header from "./Header";
 import FilteringPanel from "./FilteringPanel";
 import MovieCard from "./MovieCard";
-import MovieCarousel from "./MovieCarousel";
+import Carousel from "./Carousel";
 import { useRecommendations } from "../hooks/useRecommendations";
 import Recommended from "./Recommended";
 

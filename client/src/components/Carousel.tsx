@@ -5,7 +5,7 @@ interface CarouselProps {
   children: React.ReactNode[];
 }
 
-export default function MovieCarousel({ children }: CarouselProps) {
+export default function Carousel({ children }: CarouselProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const scroll = (direction: "left" | "right") => {

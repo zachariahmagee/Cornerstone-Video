@@ -1,4 +1,4 @@
-import MovieCarousel from "./MovieCarousel"
+import Carousel from "./Carousel"
 import MovieCard from "./MovieCard"
 import type { Movie } from "../types/Movie"
 
@@ -17,13 +17,13 @@ export default function LikedMoviesCarousel({refresh, isLiked, toggleLike}: Reco
         { error && <p style={{ color: "red" }}>{error}</p> }
         {
         !error && (
-            <MovieCarousel> 
+            <Carousel> 
                 {
                     recommended.map((movie) => (
                         <MovieCard key={movie.id} movie={movie} liked={isLiked(movie.id)} toggleLike={toggleLike} />  
                     ))
                 }
-            </MovieCarousel>
+            </Carousel>
         )
         }
     </>
