@@ -1,7 +1,7 @@
 # 🎬 Cornerstone Video 🎬
 _Zachariah Magee, May 25, 2025_
 
-Cornerstone video is a full-stack movie browser and recommendation app. It lets users brows, filter, and like movies from a large (wikipedia based dataset)[https://github.com/prust/wikipedia-movie-data], and provides personalized recommendations based on user preferences.
+Cornerstone video is a full-stack movie browser and recommendation app. It lets users brows, filter, and like movies from a large [wikipedia based dataset](https://github.com/prust/wikipedia-movie-data), and provides personalized recommendations based on user preferences.
 
 ## Features
 - **Filtering** by genre and decade
@@ -27,7 +27,7 @@ cd cornerstone-video
 ```
 2. **Run with Docker (Recommended)**
 This project uses Docker and Docker Compose. It works on macOS, Linux, and Windows (with WSL2 or Docker Desktop).
-Make sure (Docker and Docker Compose are installed)[https://docs.docker.com/compose/install/] 
+Make sure [Docker and Docker Compose are installed](https://docs.docker.com/compose/install/)
 MacOS users can also run `brew install --cask docker`
 
 ```sh
@@ -40,7 +40,7 @@ Then you will be able to access:
 
 
 3. **Alternatively, Build, Seed, and Run without Docker**
-You can run the project manually without Docker if you have (Node.js)[https://nodejs.org/en] and (MongoDB)[https://www.mongodb.com] installed locally. 
+You can run the project manually without Docker if you have [Node.js](https://nodejs.org/en) and [MongoDB](https://www.mongodb.com) installed locally. 
 
 1. Install Dependencies
    In the root directory:
@@ -80,7 +80,7 @@ npm run seed
 Now the database `cs-video` will be accessible at: `localhost:27017`
 
 4. Run Both Projects
-If you prefer to run both the frontend and backend together, the root project includes a convenience script using (concurrently)[https://www.npmjs.com/package/concurrently]
+If you prefer to run both the frontend and backend together, the root project includes a convenience script using [concurrently](https://www.npmjs.com/package/concurrently)
 ```sh
 npm run dev
 ```
@@ -126,7 +126,7 @@ The backend exposes a RESTful API under /api/vi and itneracts with a MongoDB dat
 
 ## Current Limitations
 - No real **authentication or account security**. User registration is simulated, and all data is stored without verification or password protection. 
-- The API is also insecure.
+- The API is also insecure. Use Bearer tokens for authentication.
 - Recommendations require login. Right now, users must be logged in to receive recommendations. As a workaround, a “Guest” user is automatically registered on first load. Ideally, the server would support a recommendation endpoint that accepts a list of liked movie IDs, without requiring a persistent user.
 - Recommendations lack filtering or sorting.
 - Admin functionality (e.g., CRUD for movies) not implemented. All data is preseeded from JSON.
