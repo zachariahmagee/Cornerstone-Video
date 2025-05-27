@@ -34,9 +34,9 @@ MacOS users can also run `brew install --cask docker`
 docker-compose up --build
 ```
 Then you will be able to access:
-•	**Frontend**: http://localhost:5173
-•	**Backend**: http://localhost:8080/api/v1
-•	**MongoDB**: localhost:27017
+-	**Frontend**: http://localhost:5173
+-	**Backend**: http://localhost:8080/api/v1
+-	**MongoDB**: localhost:27017
 
 
 3. **Alternatively, Build, Seed, and Run without Docker**
