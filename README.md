@@ -43,7 +43,7 @@ Then you will be able to access:
 
 
 3. **Alternatively, Build, Seed, and Run**
-You can run the project manually without Docker if you have (Node.js)[https://nodejs.org/en] and (MongoDB)[https://www.mongodb.com] installed locally.
+You can run the project manually without Docker if you have (Node.js)[https://nodejs.org/en] and (MongoDB)[https://www.mongodb.com] installed locally. 
 
 1. Install Dependencies
    In the root directory:
@@ -145,7 +145,8 @@ If I had more time, I'd love to:
 - Cache recommendations per user or guest session to avoid excessive recomputation.
 - Add unit and integration tests, especially for UI and state behavior (some API tests already exist under server/scripts).
 - Implement full user accounts with sign-in, sign-out, and maybe even “friend” connections for collaborative recommendations.
-- Finishe extracting all of the client side api calls into api/movies and api/users
+- Finish extracting all of the client side api calls into api/movies and api/users
+- Add Logging
 
 
 ## Resources Used

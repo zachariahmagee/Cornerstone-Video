@@ -35,8 +35,6 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
       filters.year = { $gte: decade, $lt: decade + 10 };
     }
 
-    console.log(decade, genre);
-
     const skip = ((page || 1) - 1) * (limit || 50);
 
     // If no filters are present sort newest first

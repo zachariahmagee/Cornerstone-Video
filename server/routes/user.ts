@@ -89,7 +89,6 @@ router.put("/:id/likes", async (req: Request, res: Response): Promise<void> => {
     { _id: userObjectId },
     update
   );
-  console.log(id, movieId, liked);
 
   if (result.modifiedCount === 0) {
     res.status(404).json({ error: "User not found or no change made" });
@@ -126,9 +125,7 @@ router.get("/:id/likes", async (req: Request, res: Response): Promise<void>  => 
   const { id } = req.params;
 
   const user = await db.collection("users").findOne({ _id: new ObjectId(id) });
-  console.log("inside get likes:", id);
   if (!user) {
-    console.log("Could not find user:", id);
     res.status(404).json({ error: "User not found" });
     return;
   }
@@ -193,8 +190,6 @@ router.get("/:id/recommendations", async (req: Request, res: Response): Promise<
       id: movie._id.toString(),
       ...movie,
     }));
-
-    console.log("Recommended: ",top.length);
 
     res.json(top);
 })
