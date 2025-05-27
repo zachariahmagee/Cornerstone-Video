@@ -1,8 +1,6 @@
 # 🎬 Cornerstone Video 🎬
 _Zachariah Magee, May 25, 2025_
 
-
-
 Cornerstone video is a full-stack movie browser and recommendation app. It lets users brows, filter, and like movies from a large (wikipedia based dataset)[https://github.com/prust/wikipedia-movie-data], and provides personalized recommendations based on user preferences.
 
 ## Features
@@ -18,7 +16,6 @@ Cornerstone video is a full-stack movie browser and recommendation app. It lets 
 - **Backend**: Node.js + Express + MongoDB
 - **Database**: MongoDB (local or containerized)
 - **Tools**: Docker + Docker Compose
-
 
 
 ## Setup Instructions
@@ -42,7 +39,7 @@ Then you will be able to access:
 	•	**MongoDB**: localhost:27017
 
 
-3. **Alternatively, Build, Seed, and Run**
+3. **Alternatively, Build, Seed, and Run without Docker**
 You can run the project manually without Docker if you have (Node.js)[https://nodejs.org/en] and (MongoDB)[https://www.mongodb.com] installed locally. 
 
 1. Install Dependencies
@@ -69,7 +66,7 @@ Make sure MongoDB is running on your system. You can either:
 mongod --dpath ./server/mongodb-data
 ```
 - **Windows**
-Start MongoDB using your preffered method (e.g., MongoDB, Windows Service, or manually):
+Start MongoDB using your prefered method (e.g., MongoDB, Windows Service, or manually):
 ```powershell
 "C:\Program Files\MongoDB\Server\6.0\bin\mongod.exe" --dbpath .\server\mongodb-data
 ```
@@ -131,7 +128,7 @@ The backend exposes a RESTful API under /api/vi and itneracts with a MongoDB dat
 - No real **authentication or account security**. User registration is simulated, and all data is stored without verification or password protection. 
 - The API is also insecure.
 - Recommendations require login. Right now, users must be logged in to receive recommendations. As a workaround, a “Guest” user is automatically registered on first load. Ideally, the server would support a recommendation endpoint that accepts a list of liked movie IDs, without requiring a persistent user.
-- Reccomendations lack filtering or sorting.
+- Recommendations lack filtering or sorting.
 - Admin functionality (e.g., CRUD for movies) not implemented. All data is preseeded from JSON.
 - No dedicated "Liked Movies" view (yet)
 
@@ -147,6 +144,7 @@ If I had more time, I'd love to:
 - Implement full user accounts with sign-in, sign-out, and maybe even “friend” connections for collaborative recommendations.
 - Finish extracting all of the client side api calls into api/movies and api/users
 - Add Logging
+- Fully flesh out keyboard navigation
 
 
 ## Resources Used
