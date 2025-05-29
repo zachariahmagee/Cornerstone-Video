@@ -23,7 +23,7 @@ export const genres = [
   "Musical",
   "Mystery",
   "Noir",
-  // "Performance",
+  "Performance",
   "Political",
   "Romance",
   "Satire",

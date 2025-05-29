@@ -11,3 +11,4 @@ export interface Movie {
   thumbnail_height?: number;
   href?: string | null;
 }
+

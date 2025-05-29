@@ -16,6 +16,7 @@ interface UseInfiniteMoviesResult {
     error: string | null;
     hasMore: boolean;
     loadMore: () => void;
+    posterHeight: number;
 }
 
 
@@ -25,6 +26,7 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [posterHeight, setPosterHeight] = useState<number>(450);
 
   const { genre, decade } = filters;
   // Reset movies if filters change
@@ -33,6 +35,13 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
     setPage(1);
     setHasMore(true);
   }, [genre, decade]);
+
+  useEffect(() => {
+        const heights = movies.map(m => m.thumbnail_height ?? 400);
+        console.log(heights)
+        const maxHeight = heights.length ? Math.max(...heights) : 400;
+        setPosterHeight(maxHeight);
+  }, [movies])
 
   useEffect(() => {
     const controller = new AbortController();
@@ -75,7 +84,9 @@ export function useInfiniteMovies(filters: MovieFilters, limit = 50): UseInfinit
     }
   };
 
-  return { movies, loading, error, hasMore, loadMore };
+  
+
+  return { movies, loading, error, hasMore, loadMore, posterHeight };
 }
 
 

@@ -17,6 +17,7 @@ const router = Router();
 
 // GET movies filtered by genre and decade 
 // Queries: genre, decade, page, limit = 50
+// Sort by descending date
 router.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
     
@@ -41,7 +42,7 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
     const noGenre = !genre || !genres.includes(genre);
     const noDecade = !decade || !decades.includes(decade);
 
-    const sortByYear = noGenre && noDecade ? -1 : 1;
+    const sortByYear = noDecade ? -1 : 1;
 
     const cursor = db.collection("movies")
       .find(filters)

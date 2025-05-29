@@ -8,9 +8,10 @@ interface MovieCardProps {
     movie: Movie;
     liked: boolean;
     toggleLike: (id: string) => void;
+    posterHeight: number;
 }
 
-export default function MovieCard({ movie, liked, toggleLike }: MovieCardProps) {
+export default function MovieCard({ movie, liked, toggleLike, posterHeight }: MovieCardProps) {
     return (
         <article
             style={{
@@ -18,7 +19,9 @@ export default function MovieCard({ movie, liked, toggleLike }: MovieCardProps) 
                 borderRadius: "8px",
                 padding: "1rem",
                 width: "200px",
+                height: `${posterHeight + 20}px`,
                 display: "flex",
+                marginBottom: "1rem",
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",

@@ -19,10 +19,11 @@ type Tab = typeof tabs[number];
 
 export default function MovieBrowser() {
     const [filters, setFilters] = useState<MovieFilters>({});
-    const { movies, loading, error, hasMore, loadMore } = useInfiniteMovies(filters);
+    const { movies, loading, error, hasMore, loadMore, posterHeight } = useInfiniteMovies(filters);
     const [tab, setTab] = useState<Tab>(tabs[0]);  
     const { toggleLike, isLiked } = useLikes();
     const observer = useRef<IntersectionObserver | null>(null);
+    
 
     const endOfMovieElementsRef = useCallback((node: HTMLDivElement | null) => {
         if (loading || !hasMore) return;
@@ -32,7 +33,7 @@ export default function MovieBrowser() {
         observer.current = new IntersectionObserver(
         (entries) => {
             if (entries[0].isIntersecting) {
-            loadMore();
+                loadMore();
             }
         },
         { rootMargin: "100px", threshold: 1.0 } 
@@ -40,6 +41,11 @@ export default function MovieBrowser() {
 
         if (node) observer.current.observe(node);
     },[]);
+
+    // setPosterHeight(movies.reduce(prev, curr) => Math.max(prev?.thumbnail_height ?? 400, curr?.thumbnail_height ?? 400), 0)
+
+
+    console.log(posterHeight);
 
     return <>
         <Header/>
@@ -63,6 +69,8 @@ export default function MovieBrowser() {
                                 display: "grid",
                                 gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
                                 gap: "1rem",
+                                rowGap: "1rem",
+                                columnGap: "2rem",
                                 padding: 0,
                                 listStyle: "none",
                             }}
@@ -70,7 +78,7 @@ export default function MovieBrowser() {
                             {
                             movies.length ? (movies.map((movie) => (
                                 <li key={movie.id}>
-                                    <MovieCard movie={movie} liked={isLiked(movie.id)} toggleLike={toggleLike} />
+                                    <MovieCard movie={movie} liked={isLiked(movie.id)} toggleLike={toggleLike} posterHeight={posterHeight} />
                                 </li>
                             ))
                         ) : ( 
